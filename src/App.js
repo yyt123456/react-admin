@@ -1,7 +1,6 @@
 import React from 'react'
-import './App.scss';
 import {HashRouter, Route, Switch} from 'react-router-dom';
-
+import '../src/styles/main.scss'
 //引用组件
 import Home from './views/Home'
 import About from './views/About'
@@ -17,7 +16,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="test">123</h1>
         <HashRouter>
           <Switch>
             <Route exact component={Home} exact path="/"/>
