@@ -1,9 +1,9 @@
 import React from 'react'
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import '../src/styles/main.scss'
 //引用组件
-import Home from './views/Home'
-import About from './views/About'
+import Login from './views/login/Login'
+
 
 // npm install react-router-dom --save-dev
 /* eslint-disable */
@@ -16,12 +16,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <HashRouter>
+        <BrowserRouter>
           <Switch>
-            <Route exact component={Home} exact path="/"/>
-            <Route component={About} path="/about"/>
+            <Route exact component={Login} exact path="/"/>
           </Switch>
-        </HashRouter>
+        </BrowserRouter>
       </div>
     )
   }
