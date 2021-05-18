@@ -541,6 +541,7 @@ module.exports = function (webpackEnv) {
             // that fall through the other loaders.
             {
               loader: require.resolve('file-loader'),
+              // eslint-disable-next-line
               // Exclude `js` files to keep "css" loader working as it injects
               // its runtime that would otherwise be processed through "file" loader.
               // Also exclude `html` and `json` extensions so they get processed
@@ -550,6 +551,11 @@ module.exports = function (webpackEnv) {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
             },
+            { 
+              test: /\.scss$/, 
+              loaders: ['style-loader', 'css-loader', 'sass-loader'],
+            }
+            
             // ** STOP ** Are you adding a new loader?
             // Make sure to add the new loader(s) before the "file" loader.
           ],

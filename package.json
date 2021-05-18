@@ -147,5 +147,10 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^6.0.0",
+    "react-router-dom": "^5.2.0",
+    "sass-resources-loader": "^2.2.1"
   }
 }
