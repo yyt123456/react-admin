@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 import './index.scss'
 import {Form, Input, Button, Row, Col, message} from 'antd';
 import {UserOutlined, UnlockOutlined} from '@ant-design/icons';
-import {validatePassword, validateCode, validateEmail} from '../../utils/validate'
+import {validatePassword, validateCode} from '../../utils/validate'
 import {Login, GetCode} from '../../api/account'
 
 /* eslint-disable */
