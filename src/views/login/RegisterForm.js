@@ -1,4 +1,4 @@
-import React, {Component,Fragment} from 'react'
+import React, {Component, Fragment} from 'react'
 import './index.scss'
 import {Form, Input, Button, Row, Col} from 'antd';
 import {UserOutlined, UnlockOutlined} from '@ant-design/icons';
@@ -8,12 +8,14 @@ class RegisterForm extends Component {
     super()
     this.state = {}
   }
+
   onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
   toggleLogin = () => {
     this.props.switchToggle('login')
   }
+
   render() {
     return (
       <Fragment>
