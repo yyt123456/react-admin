@@ -2,11 +2,14 @@ import React, {Component, Fragment} from 'react'
 import './index.scss'
 import {Form, Input, Button, Row, Col} from 'antd';
 import {UserOutlined, UnlockOutlined} from '@ant-design/icons';
+import Code from '../../compoments/code/index'
 
 class RegisterForm extends Component {
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      username: ''
+    }
   }
 
   onFinish = (values) => {
@@ -15,8 +18,15 @@ class RegisterForm extends Component {
   toggleLogin = () => {
     this.props.switchToggle('login')
   }
+  inputChange = (e) => {
+    let val = e.target.value
+    this.setState({
+      username: val
+    })
+  }
 
   render() {
+    const {username} = this.state
     return (
       <Fragment>
         <div className="form-header">
@@ -60,7 +70,7 @@ class RegisterForm extends Component {
                   <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Code"/>
                 </Col>
                 <Col span={9}>
-                  <Button type="danger" block>获取验证码</Button>
+                  <Code username={username}/>
                 </Col>
               </Row>
             </Form.Item>

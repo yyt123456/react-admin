@@ -12,7 +12,6 @@ export function GetCode(data) {
   return service.request({
     url: '/getSms/',
     method: 'post',
-    params: data,
     data
   })
 }

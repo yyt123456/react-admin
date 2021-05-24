@@ -1,9 +1,10 @@
 import React, {Component, Fragment} from 'react'
 import './index.scss'
-import {Form, Input, Button, Row, Col, message} from 'antd';
+import {Form, Input, Button, Row, Col} from 'antd';
 import {UserOutlined, UnlockOutlined} from '@ant-design/icons';
 import {validatePassword, validateCode} from '../../utils/validate'
-import {Login, GetCode} from '../../api/account'
+import {Login} from '../../api/account'
+import Code from '../../compoments/code/index'
 
 /* eslint-disable */
 class LoginForm extends Component {
@@ -11,8 +12,6 @@ class LoginForm extends Component {
     super()
     this.state = {
       username: '',
-      code_button_loading: false,
-      code_button_text: '获取验证码',
     }
   }
 
@@ -35,31 +34,8 @@ class LoginForm extends Component {
     })
   }
 
-  getCode = () => {
-    if (!this.state.username) {
-      return message.warning('用户名不能为空')
-    }
-    this.setState({
-      code_button_loading: true,
-      code_button_text: '发送中',
-    })
-    GetCode({
-      username: this.state.username,
-      module: ''
-    }).then(res => {
-
-    }).catch(err => {
-      console.log(err)
-      this.setState({
-        code_button_loading: false,
-        code_button_text: '重新获取',
-      })
-    })
-  }
-
   render() {
-    const _this = this
-    const {username, code_button_loading, code_button_text} = this.state
+    const {username} = this.state
     return (
       <Fragment>
         <div className="form-header">
@@ -131,7 +107,7 @@ class LoginForm extends Component {
                   <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="请输入验证码"/>
                 </Col>
                 <Col span={9}>
-                  <Button type="danger" block loading={code_button_loading} onClick={this.getCode}>{code_button_text}</Button>
+                  <Code username={username}/>
                 </Col>
               </Row>
             </Form.Item>
