@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react'
+import {withRouter} from 'react-router-dom';
 import './index.scss'
 import {Form, Input, Button, Row, Col, message} from 'antd';
 import {UserOutlined, UnlockOutlined} from '@ant-design/icons';
@@ -8,8 +9,8 @@ import Code from '../../compoments/code/index'
 import CrytoJs from 'crypto-js'
 /* eslint-disable */
 class LoginForm extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       username: '',
       password: '',
@@ -37,7 +38,6 @@ class LoginForm extends Component {
     })
   }
   onFinish = (values) => {
-    console.log(this.state.password)
     this.setState({
       loading: true
     })
@@ -47,6 +47,7 @@ class LoginForm extends Component {
       password: CrytoJs.MD5(this.state.password).toString(),
     }).then(res => {
       message.success(res.data.message)
+      this.props.history.push('/index')
       this.setState({
         loading: false
       })
@@ -120,7 +121,7 @@ class LoginForm extends Component {
                 {pattern: validatePassword, message: '密码格式不正确'},
               ]}
             >
-              <Input prefix={<UnlockOutlined className="site-form-item-icon"/>} placeholder="请输入密码" onChange={this.inputChangePassword}/>
+              <Input prefix={<UnlockOutlined className="site-form-item-icon"/>} placeholder="请输入密码" onChange={this.inputChangePassword} type='password'/>
             </Form.Item>
 
             <Form.Item
@@ -132,7 +133,7 @@ class LoginForm extends Component {
             >
               <Row gutter={13}>
                 <Col span={15}>
-                  <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="请输入验证码" type='password' onChange={this.inputChangeCode}/>
+                  <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="请输入验证码" onChange={this.inputChangeCode}/>
                 </Col>
                 <Col span={9}>
                   <Code username={username} modules={modules}/>
@@ -150,4 +151,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm
+export default withRouter(LoginForm)
