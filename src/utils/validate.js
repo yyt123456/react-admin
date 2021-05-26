@@ -14,4 +14,8 @@ export function validateEmail(val) {
 }
 export const validatePassword = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/
 
+export function validate_password(val) {
+  return validatePassword.test(val)
+}
+
 export const validateCode = /^[a-z0-9]{6}$/

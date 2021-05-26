@@ -11,6 +11,7 @@ class Code extends Component {
       button_text: '获取验证码',
       button_loading: false,
       button_disabled: false,
+      modules: props.modules
     }
   }
   // 接收父组件传值
@@ -62,8 +63,9 @@ class Code extends Component {
     })
     GetCode({
       username: this.state.username,
-      module: 'login'
+      module: this.state.modules
     }).then(res => {
+      message.success(res.data.message)
       // 执行倒计时
       this.countDown()
 

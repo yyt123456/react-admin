@@ -1,25 +1,60 @@
 import React, {Component, Fragment} from 'react'
 import './index.scss'
-import {Form, Input, Button, Row, Col} from 'antd';
+import {Form, Input, Button, Row, Col, message} from 'antd';
 import {UserOutlined, UnlockOutlined} from '@ant-design/icons';
 import {validatePassword, validateCode} from '../../utils/validate'
 import {Login} from '../../api/account'
 import Code from '../../compoments/code/index'
-
+import CrytoJs from 'crypto-js'
 /* eslint-disable */
 class LoginForm extends Component {
   constructor() {
     super()
     this.state = {
       username: '',
+      password: '',
+      code: '',
+      loading: false,
+      modules: 'login',
     }
   }
-
+  inputChangeUsername = (e) => {
+    let val = e.target.value
+    this.setState({
+      username: val
+    })
+  }
+  inputChangePassword = (e) => {
+    let val = e.target.value
+    this.setState({
+      password: val
+    })
+  }
+  inputChangeCode = (e) => {
+    let val = e.target.value
+    this.setState({
+      code: val
+    })
+  }
   onFinish = (values) => {
-    Login().then(res => {
-
+    console.log(this.state.password)
+    this.setState({
+      loading: true
+    })
+    Login({
+      username: this.state.username,
+      code: this.state.code,
+      password: CrytoJs.MD5(this.state.password).toString(),
+    }).then(res => {
+      message.success(res.data.message)
+      this.setState({
+        loading: false
+      })
     }).catch(err => {
       console.log(err)
+      this.setState({
+        loading: false
+      })
     })
   };
 
@@ -27,15 +62,8 @@ class LoginForm extends Component {
     this.props.switchToggle('register')
   }
 
-  inputChange = (e) => {
-    let val = e.target.value
-    this.setState({
-      username: val
-    })
-  }
-
   render() {
-    const {username} = this.state
+    const {username,modules,loading} = this.state
     return (
       <Fragment>
         <div className="form-header">
@@ -69,8 +97,8 @@ class LoginForm extends Component {
                 // }),
               ]}
             >
-              <Input value={username} onChange={this.inputChange}
-                     prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Username"/>
+              <Input value={username} onChange={this.inputChangeUsername}
+                     prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="请输入邮箱"/>
             </Form.Item>
 
             <Form.Item
@@ -92,7 +120,7 @@ class LoginForm extends Component {
                 {pattern: validatePassword, message: '密码格式不正确'},
               ]}
             >
-              <Input prefix={<UnlockOutlined className="site-form-item-icon"/>} placeholder="Password"/>
+              <Input prefix={<UnlockOutlined className="site-form-item-icon"/>} placeholder="请输入密码" onChange={this.inputChangePassword}/>
             </Form.Item>
 
             <Form.Item
@@ -104,16 +132,16 @@ class LoginForm extends Component {
             >
               <Row gutter={13}>
                 <Col span={15}>
-                  <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="请输入验证码"/>
+                  <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="请输入验证码" type='password' onChange={this.inputChangeCode}/>
                 </Col>
                 <Col span={9}>
-                  <Code username={username}/>
+                  <Code username={username} modules={modules}/>
                 </Col>
               </Row>
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="login-form-button" block>登录</Button>
+              <Button type="primary" htmlType="submit" className="login-form-button" block loading={loading}>登录</Button>
             </Form.Item>
           </Form>
         </div>
