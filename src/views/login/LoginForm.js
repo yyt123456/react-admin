@@ -7,6 +7,8 @@ import {validatePassword, validateCode} from '../../utils/validate'
 import {Login} from '../../api/account'
 import Code from '../../compoments/code/index'
 import CrytoJs from 'crypto-js'
+import {setToken} from "../../utils/session";
+
 /* eslint-disable */
 class LoginForm extends Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class LoginForm extends Component {
       modules: 'login',
     }
   }
+
   inputChangeUsername = (e) => {
     let val = e.target.value
     this.setState({
@@ -46,11 +49,13 @@ class LoginForm extends Component {
       code: this.state.code,
       password: CrytoJs.MD5(this.state.password).toString(),
     }).then(res => {
-      message.success(res.data.message)
-      this.props.history.push('/index')
       this.setState({
         loading: false
       })
+      message.success(res.data.message)
+      setToken(res.data.data.token)
+      this.props.history.push('/index')
+
     }).catch(err => {
       console.log(err)
       this.setState({
@@ -60,11 +65,12 @@ class LoginForm extends Component {
   };
 
   toggleLogin = () => {
+    //调用父组件方法
     this.props.switchToggle('register')
   }
 
   render() {
-    const {username,modules,loading} = this.state
+    const {username, modules, loading} = this.state
     return (
       <Fragment>
         <div className="form-header">
@@ -121,7 +127,8 @@ class LoginForm extends Component {
                 {pattern: validatePassword, message: '密码格式不正确'},
               ]}
             >
-              <Input prefix={<UnlockOutlined className="site-form-item-icon"/>} placeholder="请输入密码" onChange={this.inputChangePassword} type='password'/>
+              <Input prefix={<UnlockOutlined className="site-form-item-icon"/>} placeholder="请输入密码"
+                     onChange={this.inputChangePassword} type='password'/>
             </Form.Item>
 
             <Form.Item
@@ -133,7 +140,8 @@ class LoginForm extends Component {
             >
               <Row gutter={13}>
                 <Col span={15}>
-                  <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="请输入验证码" onChange={this.inputChangeCode}/>
+                  <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="请输入验证码"
+                         onChange={this.inputChangeCode}/>
                 </Col>
                 <Col span={9}>
                   <Code username={username} modules={modules}/>

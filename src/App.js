@@ -1,6 +1,7 @@
 import React from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-// import '../src/styles/main.scss'
+//私有路由组件
+import PrivateRouter from './compoments/PrivateRouter/index'
 //引用组件
 import Login from './views/login/Login'
 import Index from './views/index/Index'
@@ -19,8 +20,9 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <Switch>
-            <Route exact component={Login} exact path="/"/>
-            <Route component={Index} exact path="/index"/>
+            <Route exact render={() => <Login/>} path="/"/>
+            {/*<Route component={Index} exact path="/index"/>*/}
+            <PrivateRouter component={Index}></PrivateRouter>
           </Switch>
         </BrowserRouter>
       </div>
