@@ -3,7 +3,7 @@ import {Layout} from 'antd'
 import './layout.scss'
 import Aside from './components/Aside'
 import LayoutHeader from './components/Header'
-
+import LayoutContent from '../../compoments/layoutContent/index'
 const {Sider, Header, Content} = Layout
 
 class Index extends React.Component {
@@ -21,7 +21,9 @@ class Index extends React.Component {
           </Header>
           <Layout>
             <Sider width='250px'><Aside></Aside></Sider>
-            <Content className='layout-content'>内容</Content>
+            <Content className='layout-content'>
+              <LayoutContent></LayoutContent>
+            </Content>
           </Layout>
         </Layout>
       </Fragment>
